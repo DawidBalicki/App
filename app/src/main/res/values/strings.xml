@@ -15,7 +15,7 @@
 -->
 <resources>
 
-    <string name="app_name">nRF UART v2.1</string>
+    <string name="app_name">BLE MESH Controller</string>
     <string name="device">Device:</string>
     <string name="no_device">&lt;Select a device&gt;</string>
     <string name="select_device">Select a device</string>
@@ -62,7 +62,7 @@
     <string name="ble_not_supported">Bluetooth Low Energy not supported</string>
     <string name="scan">Scan</string>
     <string name="cancel">Cancel</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">BLE MESH Controller</string>
 
     <!--new string-->
     <string name="connect_with_device">Connect with network</string>
@@ -88,6 +88,10 @@
     </string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_create_account">CreateAccount</string>
+    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>
 

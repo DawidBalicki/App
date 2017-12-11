@@ -44,7 +44,7 @@ public class LoginActivity extends Activity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    public G mService;
+    public Controller mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

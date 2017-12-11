@@ -41,4 +41,9 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="BluetoothTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/BLETextColor</item>
+        <item name="android:windowBackground">@color/BLEBackground</item>
+    </style>
+
 </resources>
