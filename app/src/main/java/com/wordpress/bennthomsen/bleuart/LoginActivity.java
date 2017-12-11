@@ -164,8 +164,8 @@ public class LoginActivity extends Activity  {
             }
             mAuthTask = new UserLoginTask(email, password);
 
-            Intent newIntent1 = new Intent(LoginActivity.this, CreateAccount.class);
-            startActivity(newIntent1);
+           // Intent newIntent1 = new Intent(LoginActivity.this, CreateAccount.class);
+            //startActivity(newIntent1);
            // mAuthTask.execute((Void) null);
         }
     }

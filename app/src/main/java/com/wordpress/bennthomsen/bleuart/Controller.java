@@ -14,7 +14,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Button;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -133,7 +132,7 @@ public class Controller extends Application {
                     Log.d(TAG,"DANEEEEE: " +text);
 
                     if(text.equals("daw")){
-                        Intent intent2 = new Intent(context,Main2Activity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent2 = new Intent(context,AdminActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent2);
                     }
 
