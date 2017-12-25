@@ -1,15 +1,11 @@
 package com.wordpress.bennthomsen.bleuart;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,7 +163,7 @@ public class AdminShowUsersTab extends Fragment {
                 rowLows.addView(lowsLabel);
 
                 ImageView day2Conditions = new ImageView(view.getContext());
-                day2Conditions.setImageResource(R.drawable.cutmypic);
+                day2Conditions.setImageResource(R.drawable.yes_icon);
                 day2Conditions.setScaleX((float) 0.28);
                 day2Conditions.setScaleY((float) 0.28);
                 day2Conditions.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -175,7 +171,7 @@ public class AdminShowUsersTab extends Fragment {
 
 
                 ImageView day1Conditions = new ImageView(view.getContext());
-                day1Conditions.setImageResource(R.drawable.cutmypic1);
+                day1Conditions.setImageResource(R.drawable.no_icon);
                 day1Conditions.setScaleX((float) 0.28);
                 day1Conditions.setScaleY((float) 0.28);
                 day1Conditions.setY(-120);
