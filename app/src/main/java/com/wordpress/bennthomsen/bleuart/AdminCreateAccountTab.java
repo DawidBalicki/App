@@ -4,10 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.UnsupportedEncodingException;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -27,6 +39,7 @@ public class AdminCreateAccountTab extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public Messages messages = new Messages();
 
     private OnFragmentInteractionListener mListener;
 
@@ -68,13 +81,74 @@ public class AdminCreateAccountTab extends Fragment {
         return inflater.inflate(R.layout.fragment_admin_create_account_tab, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        final EditText editTextLogin  = getView().findViewById(R.id.editTextLogin);
+        final EditText editTextPassword  = getView().findViewById(R.id.editTextPassword);
+        final CheckBox checkBoxDoor1 = getView().findViewById(R.id.checkBoxDoor1);
+        final CheckBox checkBoxDoor2 = getView().findViewById(R.id.checkBoxDoor2);
+        Button buttonSaveAccount = getView().findViewById(R.id.buttonSaveAccount);
+
+
+        buttonSaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean cancelBoolean = false;
+                String login = editTextLogin.getText().toString();
+                String password = editTextPassword.getText().toString();
+                Boolean accessDoor1 = checkBoxDoor1.isChecked();
+                Boolean accessDoor2 = checkBoxDoor2.isChecked();
+
+                // Check for a valid password, if the user entered one.
+                if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+                    editTextPassword.setError(getString(R.string.error_invalid_password));
+                    editTextPassword.requestFocus();
+                    cancelBoolean = true;
+                }
+
+                // Check for a valid email address.
+                if (TextUtils.isEmpty(login) ) {
+                    editTextLogin.setError(getString(R.string.error_field_required));
+                    editTextLogin.requestFocus();
+                    cancelBoolean = true;
+                } else if (!isLoginValid(login)) {
+                    editTextLogin.setError(getString(R.string.error_invalid_email));
+                    editTextLogin.requestFocus();
+                    cancelBoolean = true;
+                }
+                if(!checkBoxDoor1.isChecked() && !checkBoxDoor2.isChecked() ){
+                    Toast.makeText(getActivity(), getString(R.string.error_door_required), Toast.LENGTH_SHORT).show();
+                    checkBoxDoor1.requestFocus();
+                    cancelBoolean = true;
+                }
+
+                if (cancelBoolean) {
+                    // There was an error; don't attempt login and focus the first
+                    // form field with an error.
+                    editTextPassword.requestFocus();
+                } else {
+                    messages.createAccount(login, password, accessDoor1, accessDoor2);
+                    editTextLogin.getText().clear();
+                    editTextPassword.getText().clear();
+                    checkBoxDoor1.setChecked(false);
+                    checkBoxDoor2.setChecked(false);
+                    editTextLogin.requestFocus();
+
+                }
+            }
+        });
+
+    }
+    private boolean isLoginValid(String login) {
+
+        return login.length() > 4 && login.length() < 12 ;
     }
 
+    private boolean isPasswordValid(String password) {
+
+        return password.length() > 4 && password.length() < 12;
+    }
     @Override
     public void onAttach(Activity context) {
         super.onAttach(context);
@@ -92,18 +166,9 @@ public class AdminCreateAccountTab extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

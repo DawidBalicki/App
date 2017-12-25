@@ -37,8 +37,7 @@
         android:name=".Controller"
         android:icon="@drawable/nrfuart_hdpi_icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light"
-        >
+        android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".ConnectWithDevice"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -50,10 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DeviceListActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Dialog" />
 
         <service
             android:name=".UartService"
@@ -65,11 +60,18 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".CreateAccount"
-            android:label="@string/title_activity_create_account" />
-        <activity
             android:name=".AdminActivity"
-            android:label="AdminActivity" />
+            android:label="Admin Panel" />
+        <activity
+            android:name=".UserActivity"
+            android:label="@string/title_activity_user"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

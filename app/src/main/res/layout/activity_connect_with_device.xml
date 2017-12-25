@@ -46,4 +46,15 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:text="dsfdsf" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/blephoto"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="14dp" />
+
 </android.support.constraint.ConstraintLayout>

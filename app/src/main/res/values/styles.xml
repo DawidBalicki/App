@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2013 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +31,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
     <color name="black">#FF000000</color>
     <color name="whitegrey">#FFF2F2F2</color>
     <!-- AlertDialog text color fix thanks to Shawn Castrianni, see: http://groups.google.com/group/android-developers/browse_thread/thread/f0b34621d3a70c4b -->
@@ -41,9 +41,22 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="BluetoothTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="BluetoothTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/BLETextColor</item>
         <item name="android:windowBackground">@color/BLEBackground</item>
     </style>
+
+    <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--  <style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>-->
+
 
 </resources>

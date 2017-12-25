@@ -6,12 +6,101 @@
     tools:context="com.wordpress.bennthomsen.bleuart.AdminCreateAccountTab">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/adminCreateAccountTabText"
-        android:layout_centerInParent="true"
-        android:textSize="30dp"
-        android:id="@+id/textView" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/enterPersonalData"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <EditText
+        android:id="@+id/editTextLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editTextPassword"
+        android:layout_below="@+id/textView2"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="@string/prompt_email"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:hint="@string/prompt_password"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/editTextPassword"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/setUpAccessibility"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <CheckBox
+        android:id="@+id/checkBoxDoor1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/nameOfDoor"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <CheckBox
+        android:id="@+id/checkBoxDoor2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/checkBoxDoor1"
+        android:layout_below="@+id/checkBoxDoor1"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/nameOfDoor1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <Button
+        android:id="@+id/buttonSaveAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/checkBoxDoor2"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/save_account"
+        android:textColor="@color/BLETextColor"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
 </RelativeLayout>

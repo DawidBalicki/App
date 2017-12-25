@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wordpress.bennthomsen.bleuart.UserActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.wordpress.bennthomsen.bleuart.AdminDefaultTab">
+
+        <View
+            android:id="@+id/separator3"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/buttonClose1User"
+            android:layout_marginTop="11dp"
+            android:background="@color/BLETextColor" />
+
+        <Button
+            android:id="@+id/buttonOpen1User"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/separator"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/nameDoor1"
+            android:text="@string/open"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_alignStart="@+id/imageDoor1"
+            android:layout_below="@+id/imageDoor"
+            android:layout_marginTop="14dp"
+            android:background="@color/BLETextColor" />
+        <!-- TODO: Update blank fragment layout -->
+
+        <View
+            android:id="@+id/separator2"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/portretIcon"
+            android:background="@color/BLETextColor" />
+
+        <ImageView
+            android:id="@+id/portretIcon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
+            android:src="@drawable/contacts" />
+
+        <TextView
+            android:id="@+id/nameOfUser"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/portretIcon"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@+id/portretIcon"
+            android:text="@string/name"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <ImageView
+            android:id="@+id/imageDoor1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignStart="@+id/imageDoor"
+            android:layout_below="@+id/imageDoor"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/doorphoto" />
+
+        <ImageView
+            android:id="@+id/imageDoor"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignStart="@+id/portretIcon"
+            android:layout_below="@+id/portretIcon"
+            android:layout_marginLeft="-26dp"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/doorphoto" />
+
+        <TextView
+            android:id="@+id/nameDoor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/imageDoor1"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="-8dp"
+            android:layout_toEndOf="@+id/imageDoor"
+            android:text="@string/nameOfDoor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/nameDoor1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageDoor1"
+            android:layout_alignStart="@+id/nameDoor"
+            android:layout_marginBottom="20dp"
+            android:text="@string/nameOfDoor1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/buttonOpenUser"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_above="@+id/buttonCloseUser"
+            android:layout_alignStart="@+id/buttonCloseUser"
+            android:text="@string/open"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/buttonCloseUser"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/imageDoor"
+            android:layout_toEndOf="@+id/nameDoor1"
+            android:text="@string/close"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/buttonClose1User"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/buttonOpen1User"
+            android:layout_toEndOf="@+id/nameDoor1"
+            android:text="@string/close"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/buttonStateOfDoor1User"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@+id/buttonStateOfDoorUser"
+            android:layout_alignStart="@+id/buttonStateOfDoorUser"
+            android:layout_below="@+id/buttonStateOfDoorUser"
+            android:text="@string/nameOfDoor1"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/textCheckTheState"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/nameOfUser"
+            android:layout_below="@+id/separator3"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="13dp"
+            android:text="@string/checkTheState"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/stateOfDoorUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonStateOfDoor1User"
+            android:layout_alignEnd="@+id/separator"
+            android:layout_below="@+id/textCheckTheState"
+            android:layout_toEndOf="@+id/buttonStateOfDoorUser"
+            android:gravity="center"
+            android:text="@string/default_state"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonStateOfDoorUser"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/textCheckTheState"
+            android:layout_marginLeft="16dp"
+            android:layout_toStartOf="@+id/buttonClose1User"
+            android:text="@string/nameOfDoor"
+            android:textColor="@color/BLETextColor"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/stateOfDoor1User"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/buttonStateOfDoor1User"
+            android:layout_alignEnd="@+id/stateOfDoorUser"
+            android:layout_below="@+id/stateOfDoorUser"
+            android:layout_marginRight="0dp"
+            android:layout_toEndOf="@+id/buttonStateOfDoor1User"
+            android:gravity="center"
+            android:text="@string/default_state"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

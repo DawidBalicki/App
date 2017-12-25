@@ -32,6 +32,7 @@ package com.wordpress.bennthomsen.bleuart;
         import android.os.IBinder;
         import android.support.v4.content.LocalBroadcastManager;
         import android.util.Log;
+        import android.widget.Toast;
 
         import java.util.List;
         import java.util.UUID;
@@ -83,6 +84,7 @@ public class UartService extends Service {
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
@@ -100,7 +102,9 @@ public class UartService extends Service {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
+                diconnectWithDevice();
                 broadcastUpdate(intentAction);
+
             }
         }
 
@@ -131,6 +135,11 @@ public class UartService extends Service {
         }
     };
 
+    private void diconnectWithDevice(){
+        Intent dialogIntent = new Intent(this, ConnectWithDevice.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);

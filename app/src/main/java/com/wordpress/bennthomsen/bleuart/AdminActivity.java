@@ -1,5 +1,8 @@
 package com.wordpress.bennthomsen.bleuart;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,13 +18,14 @@ public class AdminActivity extends AppCompatActivity implements AdminDefaultTab.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("Home"));
         tabLayout.addTab(tabLayout.newTab().setText("Create account"));
         tabLayout.addTab(tabLayout.newTab().setText("Show users"));
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -30,6 +34,7 @@ public class AdminActivity extends AppCompatActivity implements AdminDefaultTab.
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -48,5 +53,23 @@ public class AdminActivity extends AppCompatActivity implements AdminDefaultTab.
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.popup_title_back)
+                .setMessage(R.string.popup_message_back)
+                .setPositiveButton(R.string.popup_yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent newIntent = new Intent(AdminActivity.this, LoginActivity.class);
+                        startActivity(newIntent);
+
+                    }
+                })
+                .setNegativeButton(R.string.popup_no, null)
+                .show();
     }
 }

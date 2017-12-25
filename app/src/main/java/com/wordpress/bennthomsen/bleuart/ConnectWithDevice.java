@@ -23,9 +23,6 @@ import static com.wordpress.bennthomsen.bleuart.MainActivity.TAG;
 
 public class ConnectWithDevice extends Activity {
 
-    private final static String disconnectingMessage = "Connection fails. Try again...";
-
-
     private Button btnConnectDisconnect;
     private  TextView messageAboutNetwork;
 
@@ -34,8 +31,8 @@ public class ConnectWithDevice extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_with_device);
 
-        messageAboutNetwork = (TextView) findViewById(R.id.messageAboutNetwork);
-        btnConnectDisconnect=(Button) findViewById(R.id.connectWithNetworkButton);
+        messageAboutNetwork = findViewById(R.id.messageAboutNetwork);
+        btnConnectDisconnect = findViewById(R.id.connectWithNetworkButton);
 
         Controller.setmBtAdapter( BluetoothAdapter.getDefaultAdapter());
         if (Controller.getmBtAdapter() == null) {
@@ -47,24 +44,24 @@ public class ConnectWithDevice extends Activity {
         Intent bindIntent = new Intent(this, UartService.class);
         bindService(bindIntent, Controller.mServiceConnection, Context.BIND_AUTO_CREATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(UARTStatusChangeReceiver, Controller.makeGattUpdateIntentFilter());
-/*        controller.service_init();*/
 
         btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
+                messageAboutNetwork.setText("");
                 if (!Controller.getmBtAdapter().isEnabled()) {
                     Log.i(TAG, "onClick - BT not enabled yet");
                     Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableIntent, Controller.REQUEST_ENABLE_BT);
                 }
                 else {
-                    if (btnConnectDisconnect.getText().equals("Connect with network")){
+                    if (btnConnectDisconnect.getText().equals("Connect to the network")){
 
-                            try {
-                            String deviceAddress = "C9:7B:CF:C5:A7:42";
+                        try {
+                            String deviceAddress = "D7:10:BD:30:8F:84";
+                            //String deviceAddress = "C5:E7:91:66:39:49";
                             Controller.setmDevice(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress)) ;
-                            Controller.getmService().connect("C9:7B:CF:C5:A7:42");
+                            Controller.getmService().connect(deviceAddress);
 
                             while( Controller.getmService().getmConnectionState()==1){} //empty while
 
@@ -74,15 +71,12 @@ public class ConnectWithDevice extends Activity {
                             }
 
                             if(Controller.getmService().getmConnectionState()==0){
-                                messageAboutNetwork.setText(disconnectingMessage);
+                                messageAboutNetwork.setText(R.string.disconnecting_message);
                             }
 
-                            }
-                            catch ( Exception ee) {
-                            Log.d(TAG, "Jestem w catch!!");
-                            }
+                        }catch ( Exception ee) {  Log.d(TAG, "I am in catch!!");}
 
-                    } else {
+                    }else {
                         //Disconnect button pressed
                         if (Controller.getmDevice()!=null){
                             Controller.getmService().disconnect();
@@ -181,7 +175,7 @@ public class ConnectWithDevice extends Activity {
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
-            showMessage("nRFUART's running in background.\n             Disconnect to exit");
+            showMessage("BLE MESH Controller running in background.\n             Disconnect to exit");
         }
         else {
             new AlertDialog.Builder(this)

@@ -5,12 +5,46 @@
     tools:context="com.wordpress.bennthomsen.bleuart.AdminShowUsersTab">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/buttonShowUsers"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/adminShowUsersTabText"
-        android:layout_centerInParent="true"
-        android:textSize="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/show_users"
+        android:textColor="@color/BLETextColor"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
 
-        />
+    <TableLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/buttonShowUsers"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="-16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
 </RelativeLayout>

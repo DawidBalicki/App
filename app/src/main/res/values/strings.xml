@@ -31,6 +31,7 @@
     <string name="connect">connect</string>
     <string name="unpair">unpair</string>
     <string name="pair">pair</string>
+    <string name="name">admin</string>
     <string name="RadioButton1">Alert level high</string>
     <string name="RadioButton2">Alert level mid</string>
     <string name="RadioButton3">Stop alerting</string>
@@ -55,7 +56,9 @@
     <string name="Readdummy">D Read</string>
     <string name="removeBond">Remove Bond</string>
     <string name="paired">paired</string>
-    <string name="popup_title">Quit nRF UART?</string>
+    <string name="popup_title">Quit BLE MESH Controller?</string>
+    <string name="popup_title_back">Do you want to go back to Login Page?</string>
+    <string name="popup_message_back">You will be logged out.</string>
     <string name="popup_message">Do you want to quit this Application?</string>
     <string name="popup_yes">YES</string>
     <string name="popup_no">NO</string>
@@ -65,13 +68,21 @@
     <string name="title_activity_login">BLE MESH Controller</string>
 
     <!--new string-->
-    <string name="connect_with_device">Connect with network</string>
+    <string name="connect_with_device">Connect to the network</string>
     <string name="CREATE_ACCOUNT">CREATE ACCOUNT</string>
     <string name="save_account">Save Account</string>
     <string name="enter_login">Enter Login for User</string>
     <string name="enter_password">Enter Password for User</string>
-    <string name="door_1">Access to the Door 1</string>S
+    <string name="door_1">Access to the Door 1</string>
     <string name="door_2">Access to the Door 2</string>
+    <string name="door1">Door 1</string>
+    <string name="door2">Door 2</string>
+    <string name="nameOfDoor">Door to the laboratory</string>
+    <string name="nameOfDoor1">Door to the storage room</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="checkTheState">Check the state:</string>
+    <string name="default_state">-</string>
 
 
     <!-- Strings related to login -->
@@ -82,13 +93,15 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_field_required">This field is too short</string>
+    <string name="error_door_required">Door selection is required</string>
+    <string name="account_was_created">Account was created</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_create_account">CreateAccount</string>
-    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_activity_admin">Admin Panel</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -102,6 +115,11 @@
     <string name="adminDefaultTabText">ADMIN DEFAULT</string>
     <string name="adminCreateAccountTabText">ADMIN CREATE ACCOUNT</string>
     <string name="adminShowUsersTabText">ADMIN SHOWS USERS</string>
+    <string name="enterPersonalData">Enter personal data:</string>
+    <string name="setUpAccessibility">Set up accessibility:</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="show_users">Show users</string>
+    <string name="disconnecting_message">Connection fails. Try again…</string>
 
 </resources>
 
