@@ -62,6 +62,7 @@
         <activity
             android:name=".AdminActivity"
             android:label="Admin Panel" />
+
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"

@@ -1,8 +1,6 @@
 package com.wordpress.bennthomsen.bleuart;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,18 +10,58 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.View;
+import android.view.Gravity;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
-public class Controller extends Application {
+public class Controller extends Application  implements Application.ActivityLifecycleCallbacks{
+
+    private static Activity mCurrentActivity;
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle bundle) {
+        mCurrentActivity = activity;
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
 
     public enum MessageFromDevice
     {
@@ -34,6 +72,7 @@ public class Controller extends Application {
         WRONGPASSWORD("wp"),
         ACCESS1("1"),
         ACCESS2("2"),
+        DISPLAY("d,"),
         ACCESS12("12");
 
         private String message;
@@ -51,7 +90,7 @@ public class Controller extends Application {
     public static final int REQUEST_SELECT_DEVICE = 1;
     public static final int REQUEST_ENABLE_BT = 2;
     private static final int UART_PROFILE_READY = 10;
-    public static final String TAG = "nRFUART";
+    public static final String TAG = "BLE MESH CONTROLLER";
     private static final int UART_PROFILE_CONNECTED = 20;
     private static final int UART_PROFILE_DISCONNECTED = 21;
     private static final int STATE_OFF = 10;
@@ -64,6 +103,7 @@ public class Controller extends Application {
     private static Boolean accessDoor2 = true;
     private static Boolean accessToNetwork = false;
     private static String name;
+    public static ArrayList<String> listOfUsers = new ArrayList<String>();
 
     protected static UartService getmService() {
         return mService;
@@ -138,14 +178,18 @@ public class Controller extends Application {
             mService = null;
         }
     };
-
-    private void finish() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        registerActivityLifecycleCallbacks(this);
     }
 
     public static final BroadcastReceiver UARTStatusChangeReceiver = new BroadcastReceiver() {
 
         public void onReceive(final Context context, Intent intent) {
+
             String action = intent.getAction();
+
             final Intent mIntent = intent;
 
             if (action.equals(UartService.ACTION_GATT_CONNECTED)) {
@@ -172,19 +216,18 @@ public class Controller extends Application {
             }
 
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
+
                 final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
                 try {
                     String text = new String(txValue, "UTF-8");
                     dane = text;
                     Log.d(TAG,"Data from Client: " + text);
 
-                    for(MessageFromDevice za : MessageFromDevice.values())
-                    {
-                        if(text.equals(za.getMessage())){
-                            Log.d(TAG,za.getMessage());
-                            messageHandler(context, za);
+                     for (MessageFromDevice za : MessageFromDevice.values()) {
+                        if(text.contains(za.getMessage())){
+                        messageHandler(context, za, text);
                         }
-                    }
+                }
 
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -211,7 +254,8 @@ public class Controller extends Application {
         }
     };
 
-    public static void messageHandler(final Context context, MessageFromDevice message){
+    public static void messageHandler(final Context context, MessageFromDevice message, String text){
+        TableLayout table = mCurrentActivity.findViewById(R.id.tab);
 
         switch(message){
 
@@ -270,9 +314,74 @@ public class Controller extends Application {
                 Intent newIntentWP = new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(newIntentWP);
                 break;
+
+            case DISPLAY:
+                if (!text.substring(2).equals("end") && !listOfUsers.contains(text.substring(2))){
+                    listOfUsers.add(text.substring(2));
+                    Log.d(TAG,"PIERWSZY IF, NIE DUBLUJE SIE");
+
+                }
+                if(text.substring(2).equals("end")) {
+                    fillTableOfUsers(table, listOfUsers, context);
+                    listOfUsers.clear();
+
+                }
+                break;
+
         }
 
     }
+
+    private  static void fillTableOfUsers(TableLayout table, ArrayList<String> listOfUsers, Context context){
+
+        for(int i=0; listOfUsers.size()>i; i++){
+            String nameOfUser = listOfUsers.get(i).substring(0,listOfUsers.get(i).indexOf(":"));
+            String access = listOfUsers.get(i).substring(listOfUsers.get(i).indexOf(":") + 1, listOfUsers.get(i).length());
+
+            TableRow newRow = new TableRow(context);
+
+            TextView nameLabel = new TextView(context);
+            nameLabel.setText(nameOfUser);
+            nameLabel.setTextSize(30);
+            nameLabel.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            nameLabel.setGravity(Gravity.CENTER);
+
+            if(i % 2 == 0){
+                newRow.setBackgroundColor(Color.argb(255,230,231,232));
+                nameLabel.setTextColor(Color.DKGRAY);
+            }
+            else {
+                newRow.setBackgroundColor(Color.argb(255, 230, 255, 255));
+                nameLabel.setTextColor(Color.argb(255,13,97,133));
+            }
+
+            ImageView iconNo = new ImageView(context);
+            iconNo.setImageResource(R.drawable.no_icon);
+            iconNo.setScaleType(ImageView.ScaleType.CENTER);
+            iconNo.setY(15);
+
+            ImageView iconYes = new ImageView(context);
+            iconYes.setImageResource(R.drawable.yes_icon);
+            iconYes.setY(15);
+
+            ImageView iconYesNew = new ImageView(context);
+            iconYesNew.setImageResource(R.drawable.yes_icon);
+            iconYesNew.setY(15);
+
+            newRow.addView(nameLabel);
+
+            if(access.contains("1")) {newRow.addView(iconYes);}
+            else {newRow.addView(iconNo);}
+
+            if(access.contains("2")) {newRow.addView(iconYesNew);}
+            else {newRow.addView(iconNo);}
+
+            table.addView(newRow);
+
+        }
+
+    }
+
     private static void runOnUiThread(Runnable action) {
 
     }

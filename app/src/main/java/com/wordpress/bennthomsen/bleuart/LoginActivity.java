@@ -29,10 +29,6 @@ public class LoginActivity extends Activity  {
     private View mLoginFormView;
     private Messages messages = new Messages();
 
-    public View getmProgressView() {
-        return mProgressView;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,22 +97,21 @@ public class LoginActivity extends Activity  {
         } else {
             showProgress(true);
             messages.login(login,password);
-
         }
     }
 
     private boolean isEmailValid(String login) {
 
-        return login.length() > 4 && login.length() < 12 ;
+        return login.length() > 4 && login.length() < 12 && !login.contains(":") ;
     }
 
     private boolean isPasswordValid(String password) {
 
-        return password.length() > 4 && password.length() < 12 ;
+        return password.length() > 4 && password.length() < 12 && !password.contains(":") ;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
+    private void showProgress(final boolean show) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);

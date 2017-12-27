@@ -5,12 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import static android.content.ContentValues.TAG;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -85,6 +82,7 @@ public class UserActivity extends AppCompatActivity {
                 buttonOpenDoor2.setAlpha(1);
             }
         });
+
         buttonStateOfDoor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {messages.checkTheStateOfDoor("1");     }

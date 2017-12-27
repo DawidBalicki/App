@@ -1,42 +1,25 @@
 package com.wordpress.bennthomsen.bleuart;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
-
-import static android.content.ContentValues.TAG;
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AdminCreateAccountTab.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AdminCreateAccountTab#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AdminCreateAccountTab extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
     public Messages messages = new Messages();
@@ -90,7 +73,6 @@ public class AdminCreateAccountTab extends Fragment {
         final CheckBox checkBoxDoor2 = getView().findViewById(R.id.checkBoxDoor2);
         Button buttonSaveAccount = getView().findViewById(R.id.buttonSaveAccount);
 
-
         buttonSaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,8 +106,6 @@ public class AdminCreateAccountTab extends Fragment {
                 }
 
                 if (cancelBoolean) {
-                    // There was an error; don't attempt login and focus the first
-                    // form field with an error.
                     editTextPassword.requestFocus();
                 } else {
                     messages.createAccount(login, password, accessDoor1, accessDoor2);
@@ -142,13 +122,14 @@ public class AdminCreateAccountTab extends Fragment {
     }
     private boolean isLoginValid(String login) {
 
-        return login.length() > 4 && login.length() < 12 ;
+        return login.length() > 4 && login.length() < 12  && !login.contains(":");
     }
 
     private boolean isPasswordValid(String password) {
 
-        return password.length() > 4 && password.length() < 12;
+        return password.length() > 4 && password.length() < 12 && !password.contains(":");
     }
+
     @Override
     public void onAttach(Activity context) {
         super.onAttach(context);

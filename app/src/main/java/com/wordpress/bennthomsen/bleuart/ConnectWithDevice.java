@@ -12,19 +12,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.concurrent.TimeUnit;
-
 import static com.wordpress.bennthomsen.bleuart.Controller.UARTStatusChangeReceiver;
-import static com.wordpress.bennthomsen.bleuart.MainActivity.TAG;
 
 public class ConnectWithDevice extends Activity {
 
     private Button btnConnectDisconnect;
     private  TextView messageAboutNetwork;
+    private final static String TAG = ConnectWithDevice.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

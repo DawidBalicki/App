@@ -11,8 +11,9 @@ class Messages {
     void login(String login, String password){
         String message;
         String action;
-        if(login.equals("admin")){action = "a";}
-        else{action = "u";}
+
+        if(login.equals("admin")) action = "a";
+        else action = "u";
 
         message = createMessage(action, "N", login, password, "N");
         Log.d(TAG,"Login:" + message);
@@ -26,15 +27,15 @@ class Messages {
             e.printStackTrace();
         }
 
-        if(login.equals("admin") && password.equals("admin")){Log.d(TAG,"Admin is logged.");}
-        else {Log.d(TAG,"User:  " + message + "is logged.");}
+        if(login.equals("admin") && password.equals("admin")) Log.d(TAG,"Admin is logged.");
+        else Log.d(TAG,"User:  " + message + "is logged.");
     }
 
     void createAccount(String login, String password, Boolean door1, Boolean door2){
         String accessDoor1 = "";
         String accessDoor2 = "";
-        if(door1){accessDoor1 = "1";}
-        if (door2){ accessDoor2 = "2";}
+        if(door1) accessDoor1 = "1";
+        if (door2) accessDoor2 = "2";
         String accessToDoors = accessDoor1 + accessDoor2;
 
         String message = createMessage("s","N",login,password,accessToDoors);

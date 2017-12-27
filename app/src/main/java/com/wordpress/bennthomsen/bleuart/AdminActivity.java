@@ -5,11 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TableLayout;
 
 public class AdminActivity extends AppCompatActivity implements AdminDefaultTab.OnFragmentInteractionListener, AdminCreateAccountTab.OnFragmentInteractionListener, AdminShowUsersTab.OnFragmentInteractionListener {
 
@@ -54,6 +52,7 @@ public class AdminActivity extends AppCompatActivity implements AdminDefaultTab.
     public void onFragmentInteraction(Uri uri) {
 
     }
+
     @Override
     public void onBackPressed(){
         new AlertDialog.Builder(this)
