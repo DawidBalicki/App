@@ -37,7 +37,7 @@ public class ConnectWithDevice extends Activity {
             return;
         }
 
-        Intent bindIntent = new Intent(this, UartService.class);
+        Intent bindIntent = new Intent(this, BluetoothService.class);
         bindService(bindIntent, Controller.mServiceConnection, Context.BIND_AUTO_CREATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(UARTStatusChangeReceiver, Controller.makeGattUpdateIntentFilter());
 
@@ -54,12 +54,11 @@ public class ConnectWithDevice extends Activity {
                     if (btnConnectDisconnect.getText().equals("Connect to the network")){
 
                         try {
-                            String deviceAddress = "D7:10:BD:30:8F:84";
-                            //String deviceAddress = "C5:E7:91:66:39:49";
+                            String deviceAddress = "CB:08:2E:CE:56:66";
                             Controller.setmDevice(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress)) ;
                             Controller.getmService().connect(deviceAddress);
 
-                            while( Controller.getmService().getmConnectionState()==1){} //empty while
+                            while( Controller.getmService().getmConnectionState()==1){} //empty while 1 -STATE CONNECTING
 
                             if(Controller.getmService().getmConnectionState()==2){  // 2 - STATE_CONNECTED
                                 Intent newIntent1 = new Intent(ConnectWithDevice.this, LoginActivity.class);
@@ -70,10 +69,9 @@ public class ConnectWithDevice extends Activity {
                                 messageAboutNetwork.setText(R.string.disconnecting_message);
                             }
 
-                        }catch ( Exception ee) {  Log.d(TAG, "I am in catch!!");}
+                        }catch ( Exception ee) { Log.d(TAG, "Exception: " + ee);}
 
                     }else {
-                        //Disconnect button pressed
                         if (Controller.getmDevice()!=null){
                             Controller.getmService().disconnect();
                         }
@@ -81,10 +79,6 @@ public class ConnectWithDevice extends Activity {
                 }
             }
         });
-    }
-
-    private void showMessage(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -147,12 +141,10 @@ public class ConnectWithDevice extends Activity {
         switch (requestCode) {
 
             case Controller.REQUEST_ENABLE_BT:
-                // When the request to enable Bluetooth returns
                 if (resultCode == Activity.RESULT_OK) {
                     Toast.makeText(this, "Bluetooth has turned on ", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    // User did not enable Bluetooth or an error occurred
                     Log.d(TAG, "BT not enabled");
                     Toast.makeText(this, "Problem in BT Turning ON ", Toast.LENGTH_SHORT).show();
                     finish();
@@ -171,7 +163,7 @@ public class ConnectWithDevice extends Activity {
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
-            showMessage("BLE MESH Controller running in background.\n             Disconnect to exit");
+            Toast.makeText(this, "BLE MESH Controller running in background.\n             Disconnect to exit", Toast.LENGTH_SHORT).show();
         }
         else {
             new AlertDialog.Builder(this)

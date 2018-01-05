@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -63,17 +65,19 @@ public class Controller extends Application  implements Application.ActivityLife
 
     }
 
-    public enum MessageFromDevice
+    private enum MessageFromDevice
     {
         ADMIN("ad"),
         USER("us"),
         SAVEDUSER("su"),
         ERROR("er"),
         WRONGPASSWORD("wp"),
-        ACCESS1("1"),
-        ACCESS2("2"),
-        DISPLAY("d,"),
-        ACCESS12("12");
+        DISPLAY("d:"),
+        LOGINEXISTS("le"),
+        STATUS("st:"),
+        ACCESS1("a:1"),
+        ACCESS2("a:2"),
+        ACCESS12("a:12");
 
         private String message;
 
@@ -97,18 +101,21 @@ public class Controller extends Application  implements Application.ActivityLife
     private static int mState = UART_PROFILE_DISCONNECTED;
     private static BluetoothDevice mDevice = null;
     private static BluetoothAdapter mBtAdapter = null;
-    private static UartService mService ;
+    private static BluetoothService mService ;
     private static String dane;
     private static Boolean accessDoor1 = true;
     private static Boolean accessDoor2 = true;
     private static Boolean accessToNetwork = false;
+    private static  Boolean statusOfDoor1 = false;
+    private static  Boolean statusOfDoor2 = false;
+    private static  Boolean adminIsLogged = false;
     private static String name;
     public static ArrayList<String> listOfUsers = new ArrayList<String>();
 
-    protected static UartService getmService() {
+    protected static BluetoothService getmService() {
         return mService;
     }
-    protected static void setmService(UartService mService) {
+    protected static void setmService(BluetoothService mService) {
         Controller.mService = mService;
     }
     protected static void setDane(String dane) {
@@ -162,10 +169,28 @@ public class Controller extends Application  implements Application.ActivityLife
     public static void setName(String name) {
         Controller.name = name;
     }
+    public static Boolean getStatusOfDoor1() {
+        return statusOfDoor1;
+    }
+    public static Boolean getStatusOfDoor2() {
+        return statusOfDoor2;
+    }
+    public static void setAdminIsLogged(Boolean adminIsLogged) {
+        Controller.adminIsLogged = adminIsLogged;
+    }
+    public static Boolean getAdminIsLogged() {
+        return adminIsLogged;
+    }
+    public static void setStatusOfDoor1(Boolean statusOfDoor1) {
+        Controller.statusOfDoor1 = statusOfDoor1;
+    }
+    public static void setStatusOfDoor2(Boolean statusOfDoor2) {
+        Controller.statusOfDoor2 = statusOfDoor2;
+    }
 
     public static ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-            mService = (((UartService.LocalBinder) rawBinder).getService());
+            mService = (((BluetoothService.LocalBinder) rawBinder).getService());
             Log.d(TAG, "onServiceConnected mService= " + mService);
             if (!mService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
@@ -192,7 +217,7 @@ public class Controller extends Application  implements Application.ActivityLife
 
             final Intent mIntent = intent;
 
-            if (action.equals(UartService.ACTION_GATT_CONNECTED)) {
+            if (action.equals(BluetoothService.ACTION_GATT_CONNECTED)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Log.d(TAG, "UART_CONNECT_MSG");
@@ -201,7 +226,7 @@ public class Controller extends Application  implements Application.ActivityLife
                 });
             }
 
-            if (action.equals(UartService.ACTION_GATT_DISCONNECTED)) {
+            if (action.equals(BluetoothService.ACTION_GATT_DISCONNECTED)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Log.d(TAG, "UART_DISCONNECT_MSG");
@@ -211,13 +236,13 @@ public class Controller extends Application  implements Application.ActivityLife
                 });
             }
 
-            if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
+            if (action.equals(BluetoothService.ACTION_GATT_SERVICES_DISCOVERED)) {
                 mService.enableTXNotification();
             }
 
-            if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
+            if (action.equals(BluetoothService.ACTION_DATA_AVAILABLE)) {
 
-                final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
+                final byte[] txValue = intent.getByteArrayExtra(BluetoothService.EXTRA_DATA);
                 try {
                     String text = new String(txValue, "UTF-8");
                     dane = text;
@@ -225,7 +250,7 @@ public class Controller extends Application  implements Application.ActivityLife
 
                      for (MessageFromDevice za : MessageFromDevice.values()) {
                         if(text.contains(za.getMessage())){
-                        messageHandler(context, za, text);
+                            messageHandler(context, za, text);
                         }
                 }
 
@@ -238,7 +263,6 @@ public class Controller extends Application  implements Application.ActivityLife
                         try {
                             String text = new String(txValue, "UTF-8");
                             setDane(text);
-                            Log.d(TAG,"DANEEEEE: " +text);
                         } catch (Exception e) {
                             Log.e(TAG, e.toString());
                         }
@@ -246,8 +270,7 @@ public class Controller extends Application  implements Application.ActivityLife
                 });
             }
 
-            if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)){
-               // showMessage("Device doesn't support UART. Disconnecting");
+            if (action.equals(BluetoothService.DEVICE_DOES_NOT_SUPPORT_UART)){
                 Log.d(TAG,"Device doesn't support UART. Disconnecting");
                 getmService().disconnect();
             }
@@ -256,51 +279,15 @@ public class Controller extends Application  implements Application.ActivityLife
 
     public static void messageHandler(final Context context, MessageFromDevice message, String text){
         TableLayout table = mCurrentActivity.findViewById(R.id.tab);
+        EditText editTextLogin = mCurrentActivity.findViewById(R.id.editTextLogin);
 
         switch(message){
 
             case ADMIN:
                 Intent newIntent = new Intent(context,AdminActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(newIntent);
+                setAdminIsLogged(true);
                 Toast.makeText(context,"Welcome", Toast.LENGTH_SHORT).show();
-                break;
-
-            case USER:
-                Controller.setAccessToNetwork(true);
-                break;
-
-            case SAVEDUSER:
-                Toast.makeText(context.getApplicationContext(),"Account has been created", Toast.LENGTH_SHORT).show();
-                break;
-
-            case ACCESS1:
-                if(Controller.getAccessToNetwork()) {
-                    Controller.setAccessDoor1(true);
-                    Controller.setAccessDoor2(false);
-                    Intent newIntent1 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newIntent1);
-                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case ACCESS2:
-                if(Controller.getAccessToNetwork()) {
-                    Controller.setAccessDoor1(false);
-                    Controller.setAccessDoor2(true);
-                    Intent newIntent2 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newIntent2);
-                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case ACCESS12:
-                if(Controller.getAccessToNetwork()) {
-                    Controller.setAccessDoor1(true);
-                    Controller.setAccessDoor2(true);
-                    Intent newIntent12 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newIntent12);
-                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
-                }
                 break;
 
             case ERROR:
@@ -315,19 +302,68 @@ public class Controller extends Application  implements Application.ActivityLife
                 context.startActivity(newIntentWP);
                 break;
 
+            case LOGINEXISTS:
+                editTextLogin.setError("Login exists");
+                editTextLogin.requestFocus();
+                break;
+
+            case SAVEDUSER:
+                Toast.makeText(context.getApplicationContext(),"Account has been created", Toast.LENGTH_SHORT).show();
+                break;
+
+            case USER:
+                Controller.setAccessToNetwork(true);
+                break;
+
             case DISPLAY:
                 if (!text.substring(2).equals("end") && !listOfUsers.contains(text.substring(2))){
                     listOfUsers.add(text.substring(2));
-                    Log.d(TAG,"PIERWSZY IF, NIE DUBLUJE SIE");
-
                 }
                 if(text.substring(2).equals("end")) {
                     fillTableOfUsers(table, listOfUsers, context);
                     listOfUsers.clear();
-
                 }
                 break;
 
+            case STATUS:
+                char numberOfDoor = text.charAt(3);
+                char statusOfDoor = text.charAt(5);
+                updateStatusOfDoor(context, numberOfDoor, statusOfDoor);
+                disableButton();
+                break;
+
+            case ACCESS1:
+                if(Controller.getAccessToNetwork()) {
+                    Controller.setAccessDoor1(true);
+                    Controller.setAccessDoor2(false);
+                    Intent newIntent1 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newIntent1);
+                    setAdminIsLogged(false);
+                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case ACCESS2:
+                if(Controller.getAccessToNetwork()) {
+                    Controller.setAccessDoor1(false);
+                    Controller.setAccessDoor2(true);
+                    Intent newIntent2 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newIntent2);
+                    setAdminIsLogged(false);
+                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case ACCESS12:
+                if(Controller.getAccessToNetwork()) {
+                    Controller.setAccessDoor1(true);
+                    Controller.setAccessDoor2(true);
+                    Intent newIntent12 = new Intent(context, UserActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newIntent12);
+                    setAdminIsLogged(false);
+                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
 
     }
@@ -382,17 +418,102 @@ public class Controller extends Application  implements Application.ActivityLife
 
     }
 
+    private static void updateStatusOfDoor( Context context, Character numberOfDoor, Character statusOfDoor ){
+        TextView textViewStateOfDoor1;
+        TextView textViewStateOfDoor2;
+
+        if(getAdminIsLogged()) {
+            textViewStateOfDoor1 = mCurrentActivity.findViewById(R.id.stateOfDoor);
+            textViewStateOfDoor2 = mCurrentActivity.findViewById(R.id.stateOfDoor1);
+        }else{
+            textViewStateOfDoor1 = mCurrentActivity.findViewById(R.id.stateOfDoorUser);
+            textViewStateOfDoor2 = mCurrentActivity.findViewById(R.id.stateOfDoor1User);
+        }
+
+        if(numberOfDoor == '1'){
+            if(statusOfDoor == '0') {
+                setStatusOfDoor1(false);
+                textViewStateOfDoor1.setText("CLOSE");
+                textViewStateOfDoor1.setTextColor(Color.RED);
+            }
+            else{
+                setStatusOfDoor1(true);
+                textViewStateOfDoor1.setText("OPEN");
+                textViewStateOfDoor1.setTextColor(context.getResources().getColor(R.color.DARKGREEN));
+            }
+        }
+        else if(numberOfDoor == '2') {
+            if(statusOfDoor == '0') {
+                setStatusOfDoor2(false);
+                textViewStateOfDoor2.setText("CLOSE");
+                textViewStateOfDoor2.setTextColor(Color.RED);
+            }
+            else {
+                setStatusOfDoor2(true);
+                textViewStateOfDoor2.setText("OPEN");
+                textViewStateOfDoor2.setTextColor(context.getResources().getColor(R.color.DARKGREEN));
+            }
+        }
+
+    }
+
+    private static void disableButton(){
+        Button buttonOpenDoor1;
+        Button buttonOpenDoor2;
+        Button buttonCloseDoor1;
+        Button buttonCloseDoor2;
+
+        if(getAdminIsLogged()){
+            buttonOpenDoor1 = mCurrentActivity.findViewById(R.id.buttonOpen);
+            buttonOpenDoor2 = mCurrentActivity.findViewById(R.id.buttonOpen1);
+            buttonCloseDoor1 = mCurrentActivity.findViewById(R.id.buttonClose);
+            buttonCloseDoor2 = mCurrentActivity.findViewById(R.id.buttonClose1);
+        }else
+            {
+            buttonOpenDoor1 = mCurrentActivity.findViewById(R.id.buttonOpenUser);
+            buttonOpenDoor2 = mCurrentActivity.findViewById(R.id.buttonOpen1User);
+            buttonCloseDoor1 = mCurrentActivity.findViewById(R.id.buttonCloseUser);
+            buttonCloseDoor2 = mCurrentActivity.findViewById(R.id.buttonClose1User);
+        }
+
+
+        if(Controller.getStatusOfDoor1()){
+            buttonCloseDoor1.setEnabled(true);
+            buttonCloseDoor1.setAlpha(1);
+            buttonOpenDoor1.setEnabled(false);
+            buttonOpenDoor1.setAlpha(.3f);
+        }else{
+            buttonCloseDoor1.setEnabled(false);
+            buttonCloseDoor1.setAlpha(.3f);
+            buttonOpenDoor1.setEnabled(true);
+            buttonOpenDoor1.setAlpha(1);
+        }
+
+        if(Controller.getStatusOfDoor2()){
+            buttonCloseDoor2.setEnabled(true);
+            buttonCloseDoor2.setAlpha(1);
+            buttonOpenDoor2.setEnabled(false);
+            buttonOpenDoor2.setAlpha(.3f);
+        }else{
+            buttonCloseDoor2.setEnabled(false);
+            buttonCloseDoor2.setAlpha(.3f);
+            buttonOpenDoor2.setEnabled(true);
+            buttonOpenDoor2.setAlpha(1);
+        }
+
+    }
+
     private static void runOnUiThread(Runnable action) {
 
     }
 
     public static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(UartService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(UartService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(UartService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(UartService.ACTION_DATA_AVAILABLE);
-        intentFilter.addAction(UartService.DEVICE_DOES_NOT_SUPPORT_UART);
+        intentFilter.addAction(BluetoothService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothService.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(BluetoothService.DEVICE_DOES_NOT_SUPPORT_UART);
         return intentFilter;
     }
 

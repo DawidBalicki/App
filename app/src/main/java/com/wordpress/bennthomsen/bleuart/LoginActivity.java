@@ -55,7 +55,7 @@ public class LoginActivity extends Activity  {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                Log.d(TAG,"I am in LoginActivity (attemptLogin(): " + Controller.getDane());
+                Log.d(TAG,"LoginActivity (attemptLogin(): " + Controller.getDane());
             }
         });
 
@@ -76,7 +76,7 @@ public class LoginActivity extends Activity  {
         boolean cancel = false;
         View focusView = null;
 
-          if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;

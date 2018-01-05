@@ -40,56 +40,46 @@ public class UserActivity extends AppCompatActivity {
         nameOfUser.setText(Controller.getName());
         grayOutButtons(Controller.getAccessDoor1(), Controller.getAccessDoor2());
 
+        if(!Controller.getStatusOfDoor1()) {
+            buttonCloseDoor1.setEnabled(false);
+            buttonCloseDoor1.setAlpha(.3f);
+        }
+        else{
+            buttonOpenDoor1.setEnabled(false);
+            buttonOpenDoor1.setAlpha(.3f);
+        }
+        if(!Controller.getStatusOfDoor2()) {
+            buttonCloseDoor2.setEnabled(false);
+            buttonCloseDoor2.setAlpha(.3f);
+        }
+        else{
+            buttonOpenDoor2.setEnabled(false);
+            buttonOpenDoor2.setAlpha(.3f);
+        }
+
         buttonOpenDoor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messages.openDoor("1");
-                buttonCloseDoor1.setEnabled(true);
-                buttonCloseDoor1.setAlpha(1);
-                buttonOpenDoor1.setEnabled(false);
-                buttonOpenDoor1.setAlpha(.3f);
-
             }
         });
         buttonOpenDoor2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messages.openDoor("2");
-                buttonCloseDoor2.setEnabled(true);
-                buttonCloseDoor2.setAlpha(1);
-                buttonOpenDoor2.setEnabled(false);
-                buttonOpenDoor2.setAlpha(.3f);
-
             }
         });
         buttonCloseDoor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messages.closeDoor("1");
-                buttonCloseDoor1.setEnabled(false);
-                buttonCloseDoor1.setAlpha(.3f);
-                buttonOpenDoor1.setEnabled(true);
-                buttonOpenDoor1.setAlpha(1);
             }
         });
         buttonCloseDoor2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messages.closeDoor("2");
-                buttonCloseDoor2.setEnabled(false);
-                buttonCloseDoor2.setAlpha(.3f);
-                buttonOpenDoor2.setEnabled(true);
-                buttonOpenDoor2.setAlpha(1);
             }
-        });
-
-        buttonStateOfDoor1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {messages.checkTheStateOfDoor("1");     }
-        });
-        buttonStateOfDoor2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {messages.checkTheStateOfDoor("2");    }
         });
     }
 

@@ -34,7 +34,7 @@
     <string name="nameOfDoor1">Door to the storage room</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="checkTheState">Check the state:</string>
+    <string name="checkTheState">Door status:</string>
     <string name="default_state">-</string>
 
 
@@ -57,7 +57,7 @@
 
     <string name="enterPersonalData">Enter personal data:</string>
     <string name="setUpAccessibility">Set up accessibility:</string>
-    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_user">User Panel</string>
     <string name="show_users">Show users</string>
     <string name="disconnecting_message">Connection fails. Try again…</string>
 

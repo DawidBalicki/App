@@ -51,7 +51,7 @@
         </activity>
 
         <service
-            android:name=".UartService"
+            android:name=".BluetoothService"
             android:enabled="true" />
 
         <!-- <activity android:name=".ConnectWithDevice" /> -->
@@ -65,13 +65,9 @@
 
         <activity
             android:name=".UserActivity"
-            android:label="@string/title_activity_user"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/title_activity_user" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

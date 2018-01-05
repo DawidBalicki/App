@@ -81,19 +81,6 @@ class Messages {
 
     }
 
-    void checkTheStateOfDoor(String doorId){
-        String message = createMessage("h", doorId);   //message example: check:1
-        Log.d(TAG, "Check the state of door: " + doorId);
-        byte[] value;
-        try {
-            value = message.getBytes("UTF-8");
-            Controller.getmService().writeRXCharacteristic(value);  //send data to service
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
     void displayUsers(){
         String message = createMessage("d","N","N","N","N");
         Log.d(TAG, "Display users: " + message);
@@ -114,7 +101,7 @@ class Messages {
     }
 
     private static String createMessage(String action, String doorID){
-        return action + ":" + doorID + ":" + "N" + ":" + "N" + ":" + "12" + ":";
+        return action + ":" + doorID + ":N:N:N:";
     }
 
 }
